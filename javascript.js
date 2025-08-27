@@ -13,14 +13,6 @@ function getComputerChoice(){
   }
 }
 
-function getHumanChoice() {
-  let choice;
-  do{
-    choice = prompt("Choose: rock/paper/scissors").toLowerCase();
-  } while (choice !== "rock" && choice !== "paper" && choice !== "scissors" && choice !== null);
-  return choice;
-}
-
 function playRound(computerChoice, humanChoice){
   if (humanChoice === "rock" && computerChoice === "rock"){
     console.log("TIE: Rock ties with rock.")
@@ -57,29 +49,89 @@ function playRound(computerChoice, humanChoice){
   }
   console.log(`Your score: ${humanScore}
 Computer's score: ${computerScore}`)
-  // playAgain = prompt("Play again? [y/n]");
-  // if (playAgain === 'y') playRound(getComputerChoice(), getHumanChoice());
+  updateScore();
 }
 
-function playGame(){
-  for (let i = 0; i < 5; i++){
-    playRound(getComputerChoice(), getHumanChoice());
-  }
-  if (humanScore > computerScore){
-    alert("ʸᵒᵘ ʷᵒⁿ")
-  }
-  else if (humanScore < computerScore){
-    alert("YOU LOST!!! WAHAHAHAHHA")
-  }
-  else {
-    alert("NO ONE WINS!!! ...boring")
-  }
-  humanScore = 0;
-  computerScore = 0;
+function updateScore(){
+  textHumanScore.textContent = `${humanScore}`;
+  textComputerScore.textContent = `${computerScore}`;
 }
+
+const body = document.querySelector("body");
+
+const buttonRock = document.createElement("button");
+const buttonPaper = document.createElement("button");
+const buttonScissors = document.createElement("button");
+const divButtons = document.createElement("div");
+
+const divScores = document.createElement("div");
+const divHuman = document.createElement("div"); 
+const divComputer = document.createElement("div"); 
+const h2Human = document.createElement("h2");
+const h2Computer = document.createElement("h2");
+const textHumanScore = document.createTextNode("0");
+const textComputerScore = document.createTextNode("0");
+
+buttonRock.textContent = "Rock";
+buttonPaper.textContent = "Paper";
+buttonScissors.textContent = "Scissors";
+
+divButtons.appendChild(buttonRock);
+divButtons.appendChild(buttonPaper);
+divButtons.appendChild(buttonScissors);
+
+divButtons.style.cssText = "display: flex; gap: 2rem";
+
+divScores.style.cssText = "display: flex; gap: 1rem;";
+
+h2Human.textContent = "Human Score:";
+h2Computer.textContent = "Computer Score:";
+
+divScores.appendChild(divHuman);
+divScores.appendChild(divComputer);
+
+divHuman.appendChild(h2Human);
+divHuman.appendChild(textHumanScore);
+
+divComputer.appendChild(h2Computer);
+divComputer.appendChild(textComputerScore);
+
+body.style.cssText = `display: flex; 
+flex-flow: column; 
+justify-content: center; 
+align-items: center; 
+gap: 50px; 
+padding: 100px;`;
+body.appendChild(divButtons);
+body.appendChild(divScores);
+
+const buttons = [buttonRock, buttonPaper, buttonScissors];
+
+buttons.forEach((btn) => {
+  btn.style.cssText = `background-color: rgba(51, 51, 51, 0.05);
+  border-radius: 8px;
+  border-width: 0;
+  color: #333333;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 20px 32px;
+  text-align: center;
+  transition: all 200ms;
+  vertical-align: baseline;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+`;
+
+  btn.addEventListener("click", (e) => playRound(getComputerChoice(), e.target.textContent.toLowerCase()));
+})
 
 let humanScore = 0;
 let computerScore = 0;
-
-playGame();
-
